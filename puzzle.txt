@@ -1,1 +1,50 @@
+Step 1:
+The minimum number of marbles required is
+4 marbles for minute + 11 marbles for 5 minutes + 11 marbles for hours = 26 marbles in total
 
+Step 2:
+
+def clock(marbles)
+  queue= Array[1..marbles]
+  hours= Array.new
+  five_minutes=Array.new
+  minutes= Array.new
+  total_minutes = 12*60
+  until total_minutes do
+    total_minutes =  total_minutes -1
+    if minutes.size==4 
+      minutes.reverse
+      queue = queue + minutes
+      minutes.clear
+      if five_minutes.size==11 
+        five_minutes.reverse
+        queue = queue + five_minutes
+        five_minutes.clear
+        if hours.size==11
+          hours.reverse
+          queue = queue + hours
+          hours.clear
+        end
+      else
+        five_minutes.push(queue.first)
+        queue.drop(queue.first)
+      end
+    else
+      minutes.push(queue.first)
+      queue.drop(queue.first)
+    end
+  end
+  return queue
+end
+
+
+Step 3:
+Start from 00:01 with 1st marble in minute array and then give "until" condition as queue == [1..marbles]
+
+Step 4:
+assign second parameter to total_time
+
+and finally to convert to .json
+
+final_hash= {:Min => minutes, :FiveMin => five_minutes, :Hours => hours, :Queue => queue}
+return final_hash.to_json
